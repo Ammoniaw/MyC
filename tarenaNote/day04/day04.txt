@@ -1,0 +1,40 @@
+1.编写人生第一个C语言程序
+  实验步骤：
+  mkdir -p /home/tarena/stdc/day04
+  cd /home/tarena/stdc/day04
+  vim hello.c 添加如下内容
+  /*
+	作者：游哥
+	创建时间：2021-8-7,9:09:09
+	目的：C语言演示
+   */
+   //这是我的第一个C语言程序
+   #include <stdio.h> //include:包含
+   int main(void) 
+   { 	//int:整型数，main：主要的,入口 void:没有
+	printf("hello,world\n");
+	return 0; //return:返回结束
+   }
+   保存退出，继续执行以下命令
+   gcc hello.c 编译源文件，最终翻译成计算机能够识别的可执行文件a.out
+   ls -l
+	a.out(新生成的可执行文件(x权限))
+   ./a.out 运行当前目录下的a.out第一个C语言程序，观察屏幕上的打印信息	
+
+2.玩玩gcc编译器
+  实验步骤：
+  cd /home/tarena/stdc/day04
+  ls 
+	hello.c //刚才新写的源文件
+  gcc -E  hello.c -o hello.i //对源文件进行预处理(就是包含拷贝头文件内容到hello.c中)生成预处理文件hello.i
+  vim hello.i //查看预处理文件,按G键跳转到文件的最后查看咱自己的代码内容(int main(void)....)
+  gcc -S hello.i -o hello.s //对预处理文件进行编译生成汇编文件
+  vim hello.s //查看汇编文件
+  gcc -c hello.s -o hello.o //对汇编文件进行单独的翻译生成可执行的目标文件hello.o(但此时还不包含各种大神的代码printf)
+  vim hello.o //看不懂了,CPU能看懂
+  gcc -o hello hello.o  //将自己编译生成的目标文件hello.o和大神的各种代码printf(专业术语叫库函数)合并在一起最终生成
+			可执行文件hello（最终的西红柿鸡蛋面）
+  ./hello //运行，吃饭
+
+   
+

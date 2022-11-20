@@ -1,0 +1,41 @@
+一套代码：电脑上(X86)，手机上(ARM)，基站上(PowerPC)
+一个函数跟CPU类别密切相关，只能用自己对应的代码来实现
+void A(void) {
+	#ifdef ARCH==x86
+		只编译X86代码
+	#elif ARCH==ARM
+		....
+	#else
+		...
+	#endif
+}
+gcc -DARCH=ARM ...
+
+分析头文件卫士工作原理
+预处理阶段展开main.c:
+//#include "a.h",预处理阶段展开a.h
+#ifndef __A_H //main.c的开头没有定义__A_H,条件成立
+#define __A_H //条件成立，那么就在这里定义__A_H宏
+int a = 520; //条件成立，定义a
+#endif
+
+//#include "b.h",预处理节点展开b.h
+#ifndef __B_H //main.c的开头没有定义__B_H,条件成立
+#define __B_H //条件成立，那么就在这里定义__B_H宏
+
+//#include "a.h", 预处理阶段展开a.h
+#ifndef __A_H //在上面已经定义了__A_H,条件就不成立
+#define __A_H //条件不成立，那么就不在这里定义__A_H宏
+int a = 520; //条件不成立，不定义a
+#endif
+
+#endif
+int main(void) ...
+
+练习时间：将exec目录的代码敲一遍，认真体会消化
+
+
+
+
+
+

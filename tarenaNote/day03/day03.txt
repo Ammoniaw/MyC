@@ -1,0 +1,358 @@
+游成伟 游哥
+15801588497(微信)
+
+推荐视频：<<the code linux>> 
+
+要求：打开摄像头
+方式1：open(video0); //打开当前目录下的video0文件就是打开摄像头硬件,问题来了？
+		      如果程序不在video0所在的目录(/dev目录)，程序会找不到此video0文件，造成打开失败
+		      要想打开成功程序先进入到/dev目录下然后再去打开，不够灵活
+方式2：open(/dev/video0);//直接打开根目录下的dev目录下的video0文件，此时程序无论在哪里都能找到此文件
+			并且打开成功
+结论：建议多采用绝对路径，少走弯路！ 
+*************************************************************************************
+
+1.linux命令
+clear：清屏
+pwd:获取当前目录的路径 
+cd:目录切换命令，cd  切换到的目录路径
+	例如：
+		cd /home/tarena 切换到/home/tarena目录下
+		pwd
+		cd .. 进入上一级目录
+		pwd
+		cd ./tarena 进入当前目录下的tarena目录里面去
+		pwd
+		cd ..
+		cd tarena 进入当前目录下的tarena目录里面去
+		pwd
+		cd ~ 进入主目录 等价于 cd /home/tarena
+		pwd
+		cd /  进入根目录
+		pwd 
+		clear 清屏
+ls命令：
+	例如：
+	ls /home/tarena 查看/home/tarena目录下的内容
+	ls -l /home/tarena 查看/home/tarena目录里面内容的详细信息
+	ls /usr/include/stdio.h //查看此文件是否存在
+	ls -l /usr/include/stdio.h 查看此文件的详细信息
+	cd /home/tarena
+	ls   //查看当前目录下的内容
+	ls -l //查看当前目录下内容的详细信息
+	ls .. //查看上一级目录的内容
+	ls -l .. 查看上一级目录里面内容的详细信息
+	cd /usr/include
+	ls stdio.h 查看当前目录下是否存在stdio.h文件
+	ls -l stdio.h 查看当前目录下stdio.h文件的详细信息
+	ls ~ //查看主目录里面的内容
+	ls -l ~ 查看主目录里面内容的详细信息
+	ls / 查看根目录里面的内容
+	ls -l / 查看根目录里面内容的详细信息   
+
+touch：  
+	touch /home/tarena/hello.txt 在/home/tarena目录下创建空文件hello.txt
+	ls -l /home/tarena/hello.txt 
+	cd /home/tarena
+	touch hello1.txt 在当前目录下创建空文件hello1.txt	
+	ls -l hello1.txt 
+	touch ~/hello2.txt 在主目录下创建空文件hello2.txt 
+	ls -l ~/hello2.txt
+	注意：tarena普通用户只能访问自己的主目录/home/tarena,可以在这个主目录下创建或者删除任何东西，其他目录不行
+mkdir:
+	mkdir /home/tarena/hello 在/home/tarena目录下创建空目录hello
+	ls /home/tarena/hello 查看里面的内容
+	cd /home/tarena/
+	mkdir hello1 在当前目录下创建空目录hello1
+	ls hello1
+	mkdir ~/hello2 在主目录下创建空目录hello2
+	ls ~/hello2
+	mkdir hello3/hello4/hello5 //失败了
+	mkdir -p hello3/hello4/hello5 
+	ls hello3
+	ls hello3/hello4
+	ls hello3/hello4/hello5
+
+chmod：
+	1.符号模式
+	  cd /home/tarena
+	  touch hello.txt
+	  ls -l hello.txt
+	  chmod a+x hello.txt //u:user=用户 g=group=组 o=other=其他用户 a=all=所有人
+	  ls -l hello.txt
+	  chmod u-r hello.txt
+	  ls -l hello.txt
+	  chmod g-w hello.txt
+	  ls -l hello.txt
+	  chmod a=rwx hello.txt
+	  ls -l hello.txt
+
+	2.数字模式
+	   chmod 666 hello.txt
+	   说明：
+	   第一个6表示文件拥有者对文件的权限：6 = 4(r)+2(w)+0(x),可读可写不可执行
+	   第二个6表示文件拥有者所在的组对文件的权限：6=4(r)+2(w)+0(x),可读可写不可执行
+	   第一个6表示其他用户对文件的权限：6 = 4(r)+2(w)+0(x),可读可写不可执行
+	   例如：
+	   touch /home/tarena/hello.txt 
+	   ls -l /home/tarena/hello.txt
+	   cd /home/tarena/
+	   chmod 777 hello.txt 
+	   ls -l hello.txt
+	   chmod 644 hello.txt 
+	   ls -lh hello.txt 
+	   chmod 555 hello.txt
+cp：
+	例如：
+	mkdir /home/tarena/cptest/
+	cd /home/tarena/cptest/
+	touch hello.txt
+	mkdir hello
+	ls
+	cp hello.txt hello1.txt 拷贝hello.txt生成一个新文件hello1.txt
+	ls 
+	cp -fr hello hello1 拷贝hello目录生成一个新目录hello1
+	ls
+	cp hello.txt hello 拷贝hello.txt文件到hello目录里面去
+	ls hello
+	cp -fr hello hello1 拷贝hello目录到hello1目录里面去
+	ls hello1
+	cp -fr hello1 ~/hello2 拷贝hello1目录到主目录/home/tarena目录里面去并且命名为hello2目录
+	ls  ~	
+mv:
+	例如：
+	mkdir /home/tarena/mvtest
+	cd /home/tarena/mvtest
+	touch hello.txt
+	mkdir hello
+	ls
+	mv hello.txt hello1.txt
+	ls
+	mv hello hello1
+	ls
+	mv hello.txt hello1
+	ls 
+	ls hello1
+	mkdir hello2
+	mv hello2 hello1
+	ls
+	ls hello1
+	mv hello1 ~/hello3 
+	
+rm:	例如：把刚才创建的文件和目录统统删除
+	rm  /home/tarena/hello.txt
+	cd /home/tarena/
+	rm -fr mvtest cptest 
+	
+	严重重度鄙视动不动就用sudo命令(采用管理员权限操作命令)的人！
+	sudo rm -fr / (坐牢的命令) 
+	
+echo/cat：
+	echo 我爱游哥
+	touch /home/tarena/hello.txt
+	cd /home/tarena/
+	echo 我爱游哥 > hello.txt 
+	cat hello.txt //cat命令是用来查看文件内容的命令
+	echo 我爱游哥哥 > hello.txt 
+	cat hello.txt 
+	echo 我是大神 >> hello.txt
+	cat hello.txt 
+	echo 1234 >> hello.txt
+	cat hello.txt 
+	echo 想得美 > hello.txt
+	多用于log日志的记录！
+ln：	
+	例如：
+	创建硬链接（就是给文件取别名）
+	touch /home/tarena/hello.txt
+	cd /home/tarena/
+	ln hello.txt hello1.txt 给hello.txt文件创建一个硬链接文件叫hello1.txt
+	ls -l
+	echo 123456 > hello.txt
+	ls -l
+	cat hello1.txt
+	echo hello > hello1.txt
+	ls -l
+	cat hello.txt
+	创建软连接(类似快捷方式)
+	mkdir /home/tarena/ln
+	cd /home/tarena/ln
+	touch file.txt
+	ln -s file.txt file1.txt 给file.txt创建一个软连接文件file1.txt
+	ls -l 发现file1.txt的大小是8字节，这8字节就是file.txt的文件名(由于都在当前目录下,不用包含路径信息)
+	echo 12345 > file1.txt 
+	ls -l
+	cat file.txt
+	rm file.txt
+	ls -l
+	echo 1234 > file1.txt //自动帮你生成实体文件
+
+显示文件内容命令：
+		例如：
+		cat /usr/include/stdio.h //全部无脑显示，太要命
+		more /usr/include/stdio.h //分屏显示,回车键往下走一行，空格键向下走一屏，q键退出
+		head -15 /usr/include/stdio.h 只看文件的前15行
+		tail -15 /usr/include/stdio.h 只看文件的后15行
+		
+		touch /home/tarena/hello.txt
+		tail -f /home/tarena/hello.txt //此刻停止不动
+		然后再打开一个新的终端执行：
+		echo 12345 >> /home/tarena/hello.txt,然后再去之前的终端观察有何不同
+		echo 我要成为大神 >> /home/tarena/hello.txt,然后再去之前的终端观察有何不同
+	
+		按ctrl+shift+t可以在一个终端中创建另一个子终端,切换按alt+数字(终端编号) 	
+find:
+	例如：
+	cd /home/tarena
+	find  .  -name  hello.txt 在当前目录下找一个hello.txt的文件
+	find  /usr/include -name  stdio.h 到/usr/include目录下找stdio.h文件
+	
+	//以下了解即可,重点记住前两个用法即可
+	find . -user tarena -group tarena -name hello.txt 
+	find . -perm 664 -user tarena -group tarena -name hello.txt 
+	find . -mtime +10 -perm 664 -user tarena -group tarena -name hello.txt 
+	//100c表示文件大小是100字节
+	find . -mtime +10 -size 100c -perm 664 -user tarena -group tarena -name hello.txt  
+
+grep:
+	例如：
+	cd /home/tarena
+	touch hello.txt
+	echo 1234 >> hello.txt
+	echo abcd1234 >> hello.txt
+	echo 游哥 >> hello.txt
+	echo printf >> hello.txt
+	echo printf1234 >> hello.txt
+	cat hello.txt
+	grep -Rn  "1234"  hello.txt  在当前目录的hello.txt文件中搜索1234
+	grep -Rn  "printf"  hello.txt 
+	grep -Rnw "printf"  hello.txt 
+	grep -Rn  "1234"  *	   在当前目录下的所有文件中搜索1234
+	grep -Rn  "1234" *.txt   在当前目录下所有的以.txt结尾的文件中搜索1234
+	grep -Rn  "main" /usr/include   到/usr/include目录下搜索main
+	grep -Rn "main" /usr/include/*.h   到/usr/include目录下，然后在所有的以.h结尾的文件中搜索main 
+
+tar:制作压缩包和解压缩命令 
+	mkdir -p /home/tarena/tartest/hello 
+	cd /home/tarena/tartest/hello
+	touch hello.txt
+	echo 1234 >> hello.txt
+	cd ..
+	ls
+	   hello目录
+	tar -jcvf hello.tar.bz2 hello 将hello目录打包制作成bz2格式的压缩包
+	tar -zcvf hello.tar.gz hello 将hello目录打包制作成gz格式的压缩包  
+	ls
+	rm -fr hello
+	tar -xvf hello.tar.bz2  解压缩，会生成hello目录
+	cat hello/hello.txt
+	rm -fr hello
+	tar -xvf hello.tar.gz 解压缩,会生成hello新目录
+	cat hello/hello.txt
+
+*/?/[]通配符：
+	mkdir /home/tarena/file
+	cd /home/tarena/file
+	touch file_1.txt
+	touch file_2.txt
+	touch file_11.txt
+	touch file_a.txt
+	touch file_b.txt
+	touch file_aa.txt
+	ls *.txt
+	ls file_?.txt
+	ls file_[a-c].txt
+	ls file_[0-9][0-9].txt	
+
+--------------------------------------------------------------		
+2.vim编辑器
+2.1.介绍几款常见的计算机软件编程的主流编辑器
+	vim(上古神器),vscode(微软,免费),eclipse(java开发)等
+2.2.vim编辑器使用：通过vim命令启动
+	格式：vim 文件名 
+2.3.vim三种工作模式：可视模式,编辑模式,命令行模式
+	可视模式：只能看不能编辑文件
+	编辑模式：可以编辑文件
+	命令行模式：可以给vim编辑器发送控制命令
+2.4.三种模式切换
+	可视模式---->按i键/o键/a键---->编辑模式 
+	编辑模式---->按ESC键---------->可视模式
+	可视模式---->按shift加:组合键->命令行模式 
+	命令模式---->按ESC键---------->可视模式 
+	编辑模式---->先按ESC键进入可视模式---->在按shift加:组合键--->命令行模式 
+	练习：执行以下命令
+	cd /home/tarena
+	mkdir stdc 后续课程所有的文件和目录都放在stdc目录下,不允许乱放
+	cd stdc
+	mkdir day03
+	cd day03 
+	vim helloworld.txt 练习三种模式的切换
+  	vim /home/tarena/.vimrc 将第6行删除并且保存退出即可，可以解决该死的蓝色条!
+2.5.vim命令行模式下的命令：
+w:保存文件内容 w=write=写入
+q:退出vim编辑器
+wq:保存文件并且退出vim编辑器
+q!:不保存文件并且强制退出vim编辑器
+%s/old/new/g:将文件中所有的old单词用new单词进行替换,例如：%s/张三/李四/g 结果张三被李四替换
+n1,n2s/old/new/g:将文件的第n1行到第n2中所有的old用new替换	
+直接输入行号：让光标直接跳转到对应的行上
+vs 文件名：左右分屏,可以在左右两个屏幕上同时编辑两个不同的文件
+sp 文件名: 上下分屏,可以在上下两个屏幕上同时编辑两个不同的文件
+注意：屏幕之间的切换：先进入可视模式,然后按ctrl+ww进行切换,其余操作跟之前一模一样
+练习：用vim同时编辑四个不同的文件:1.txt,2.txt,3.txt,4.txt,分别写入不同的内容并且保存退出
+执行以下命令：
+cd /home/tarena/stdc/day03  9:50继续
+vim 1.txt 
+然后用vs和sp分别创建2.txt,3.txt,4.txt,按ctrl+ww进行切换，然后输入不同的内容并且保存退出即可
+
+2.6.vim强大的快捷键(必须在可视模式下完成)
+光标移动：h(左移),j(下移),k(上移),l(右移),用这四个快捷键替换四个方向键
+行选中：shift+v然后移动光标
+列选中：ctrl+v然后移动光标 
+复制：y
+粘贴：p 
+剪切：x 
+删除:dd
+取消：u
+后悔取消：ctrl+r
+跳转到文件的末尾：G
+跳转到文件的开头：gg 
+保存并且退出vim编辑器：ZZ
+自动补全：前提是先进入编辑模式,然后输入某个单词或者某句话的开头一个字母或者若干个字母
+		  然后按ctrl+n自动补全整个单词或者整句话,提高编辑的速度！
+自动格式化：先选中代码然后按=键自动格式化代码,自动帮你各种对齐
+练习：vim 1.txt 练习vim的各种快捷键操作 
+问：用哪些快捷键可以让光标跳转到行尾和行首和行首的第一个有效字符呢？
+	行首：0,行首第一个有效字符：^（shift+6）,行尾：$
+ 
+3.编写人生第一个C语言程序
+  实验步骤：
+  mkdir -p /home/tarena/stdc/day03
+  cd /home/tarena/stdc/day03
+  vim hello.c 添加如下内容
+  /*
+	作者：游哥
+	创建时间：2021-6-4,21:12:00
+	目的：C语言演示
+   */
+   //这是我的第一个C语言程序
+   #include <stdio.h>
+   int main(void) {
+	printf("hello,world\n");
+	return 0;
+   }
+   保存退出，继续执行以下命令
+   gcc hello.c 
+   ls -l
+	a.out(新生成的可执行文件(x权限))
+   ./a.out 运行当前目录下的a.out第一个C语言程序，观察屏幕上的打印信息	
+
+
+	
+	
+
+
+
+
+
+
