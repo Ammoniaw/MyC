@@ -1,0 +1,30 @@
+1.整型类型
+	占位符：不可乱用
+	int a = 520;
+	printf("%ld\n", a); //gcc肯定给警告,但是是安全的
+	long a = 520;
+	pritnf("%d\n", a); //gcc不仅仅给警告可能还会出错，32位系统安全，64位系统危险
+
+	sizeof(520) = 4;
+	sizeof(520L) = 4/8;
+
+	int a = 155555555;
+	char b = a;
+
+2.进制转换
+	HEX:16进制
+	DEC:10进制
+	OCT:8进制
+	BIN:2进制
+	BYTE:1字节
+	WORD:2字节
+	DWORD:4字节
+	QWORD:8字节
+
+	    	
+		
+	
+	
+	
+	
+	
