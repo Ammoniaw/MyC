@@ -273,3 +273,187 @@ int CreateWindows = 520; // 大驼峰、双峰
 int my_age = 24; // 下划线命名
 ```
 
+### 1.12  两个常用标准C库函数
+
+#### 1.12.1 printf()
+
+#### 1.12.2 scanf()
+
+### 1.13 基本数据类型
+
+### 1.14 sizeof关键字
+
+#### 作用：sizeof(参数)
+
+```
+1.计算内存的大小， 以字节为单位
+2.参数可以是类型、变量或者表达式
+3.不计算参数的值，只关注其类型 sizeof(1+1)
+4.如果传递的参数是赋值语句，则无效 - sizeof(a = 520);
+```
+
+
+
+
+
+## 002  基本数据类型之字符类型
+
+### 2.1 字符常量
+
+#### 2.1.1 说明：
+
+- 使用单引号括起来进行表示 - ‘A’
+
+- 本质内存存储的是一个整数， 即字符的ACSdII码
+
+- 详情可见ascii编码表
+
+### 2.2 字符变量 - char类型(开辟的内存为一个字节大小)
+
+- （signed）char / unsigned char  
+- printf/scanf 格式化占位符：%c、%hhd(half half d)
+
+#### 2.2.1常用可显示字符 - 对应ASCII码值
+
+- 空格 - 32
+- 数字【0-9】 -  48-57
+- 大写字母 -  65-90
+- 小写字母 -  97-122
+
+### 2.3 转义字符 ![image-20221225114906432](./image-20221225114906432.png)
+
+直接插个图片吧，忘了的时候就过来翻翻就行
+
+### 2.4 练习时间
+
+#### 2.4.1 把数字字符转换为整数：‘5’-5
+
+```c
+#include <stdio.h>
+int main()
+{
+	char str_number, number;
+	printf("请键入一个数字字符，将其转化为数字：\n");
+	scanf("%c", &str_number);
+	number = str_number - '0';
+	printf("输入的字符为%c,转化为数字%hhd\n", str_number, number);
+	
+	
+	return 0;
+}
+```
+
+
+
+#### 2.4.2 把小写字母转换为大写字母： ‘a’ - 'A'
+
+```c
+#include <stdio.h>
+int main(void){
+	
+	char lower_letter, upper_letter;
+	printf("请输入一个小写字母，本程序会将其转换为大写字母：");
+	scanf("%c", &lower_letter);
+	
+	upper_letter = lower_letter - ('a' - 'A');
+	printf("输入的字母为%c, 转换后的大写字母为%c\n", lower_letter , upper_letter);
+	
+	
+	return 0;
+}
+```
+
+## 003 基本数据类型之整型类型
+
+### 3.1  整型 
+
+- short / int / long / long long 
+
+#### 3.1.1 有符号数(signed)
+
+#### 3.1.2 无符号数(unsigned)
+
+### 3.2 整型类型格式化标记符（占位符）![image-20221225164206380](./image-20221225164206380.png)
+
+- 补充：long 类型在32位、64位系统下所占字节分别为4/8字节。
+
+#### 3.2.1 整型字面值前缀
+
+- 无：十进制 - 520
+- 0：八进制 - 0520
+- 0x: 十六进制 - 0xAD
+
+#### 3.2.2  整型字面值后缀
+
+- 无：int，100， sizeof(100) - 4
+- U/u: unsighed int - 100U、100u
+- L/l : long, - 100L、100l
+- LL/ ll : long long - 100LL 、100ll
+- UL/ ul: unsigned long  - 100UL、 100ul
+
+## 004  基本数据类型之浮点类型
+
+### 4.1 格式化标记
+
+#### 4.1.1 float类型
+
+- %f : 后面补充零
+- %g: 后面没有零，只显示非零数字
+
+#### 4.1.2 double类型
+
+- %lf 
+- %lg
+
+### 4.2 字面值后缀
+
+- 无：double类型 - 1.23
+- F/f：float类型 - 1.23F、1.23f
+
+==练习时间==：用户输入圆的半径-计算圆的周长和面积
+
+```c
+#include <stdio.h>
+int main()
+{
+	double r;
+	printf("请输入一个圆的半径（本程序会计算圆的周长和半径）：");
+	scanf("%lg", &r);
+	
+	printf("半径为%lg的圆的半径的周长为%lg\n", r,3.14 *2 * r);
+	printf("半径为%lg的圆的半径的面积为%lg\n", r,3.14 * r* r);
+	
+	
+	return 0;
+}
+```
+
+### gcc编译补充
+
+```c
+//将程序警告（warning）变成错误
+gcc -o test test.c -Werror
+```
+
+```c
+#include<stdio.h>
+int main()
+{
+	int a = 50;
+	printf("a = %d\n",a);
+	printf("a = %ld\n",a);
+	
+	long b = 50;
+	
+	printf("b = %ld\n", b);
+	printf("b = %d\n", b);
+	
+	// 使用sizeof运算符，展示整型数后缀值的作用
+	printf("%d\n", sizeof(520));
+	printf("%ld\n", sizeof(520L));
+	
+	return 0;
+}
+```
+
+## 005 ==进制转换与运算符==
